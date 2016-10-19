@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CCImageLoader.iml" filepath="$PROJECT_DIR$/CCImageLoader.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imageloaderlib/imageloaderlib.iml" filepath="$PROJECT_DIR$/imageloaderlib/imageloaderlib.iml" />
     </modules>
   </component>
 </project>
