@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import java.io.FileDescriptor;
+import java.io.InputStream;
 
 /**
  * Created by lichengcai on 2016/10/19.
@@ -41,8 +42,21 @@ public class ImageResize {
         }
         int sampleSize = calculateSampleSize(options,reqWidth,reqHeight);
         options.inSampleSize = sampleSize;
-        options.inSampleSize = sampleSize;
+        options.inJustDecodeBounds = false;
         return BitmapFactory.decodeFileDescriptor(fd,null,options);
+    }
+
+    public static Bitmap decodeSampleBitmapFromStream(InputStream in,int reqWidth, int reqHeight) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        Bitmap bitmap = BitmapFactory.decodeStream(in);
+        if (bitmap == null) {
+            Log.d(TAG,"bitmap is null now decodeSampleBitmapFromStream");
+        }
+        int sampleSize = calculateSampleSize(options,reqWidth,reqHeight);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeStream(in,null,options);
+
     }
 
     private static int calculateSampleSize(BitmapFactory.Options options,int reqWidth,int reqHeight) {

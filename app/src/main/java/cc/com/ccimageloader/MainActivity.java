@@ -1,6 +1,7 @@
 package cc.com.ccimageloader;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.imageloaderlib.libcore.io.DiskLruCache;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -26,6 +26,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainActivity extends AppCompatActivity {
     private static final String url_img = "http://img.my.csdn.NET/uploads/201309/01/1378037235_7476.jpg";
@@ -56,6 +57,36 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    private String getS(int code) {
+        if (code == 0) {
+            Log.d("getS","code---" + code);
+            return "code--" + code;
+        }
+
+        Log.d("getS","log d d d ");
+        return null;
+    }
+
+    private void anomic() {
+        AtomicInteger ai=new AtomicInteger(0);
+        int i1=ai.get();
+        v(i1);
+        int i2=ai.getAndSet(5);
+        v(i2);
+        int i3=ai.get();
+        v(i3);
+        int i4=ai.getAndIncrement();
+        v(i4);
+        v(ai.get());
+    }
+
+    private void v(int i) {
+    }
+
+    public void intentTo(View view) {
+        startActivity(new Intent(MainActivity.this,SecondActivity.class));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +94,11 @@ public class MainActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.image);
         int version = getAppVersion(getApplicationContext());
         File file = getDiskCacheDir(getApplicationContext(),"bitmap");
+
+        getS(0);
+        anomic();
+        Log.d("cpu","cpu count--" + Runtime.getRuntime().availableProcessors());
+
 
         if (!file.exists()) {
             file.mkdirs();

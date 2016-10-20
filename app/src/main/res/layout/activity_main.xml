@@ -18,12 +18,17 @@
         android:layout_height="wrap_content" />
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/imageloader_uri"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <Button
         android:text="remove"
         android:onClick="remove"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:onClick="intentTo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
