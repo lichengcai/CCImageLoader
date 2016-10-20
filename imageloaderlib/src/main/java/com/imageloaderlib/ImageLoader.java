@@ -71,15 +71,17 @@ public class ImageLoader {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MESSAGE_POST_RESULT:
+                    Log.d(TAG,"handler handleMessage");
                     LoaderResult result = (LoaderResult) msg.obj;
+                    Log.d(TAG,"handler result tostring---" + result.toString());
                     ImageView imageView = result.imageView;
                     imageView.setImageBitmap(result.bitmap);
                     String uri = (String) imageView.getTag(TAG_KEY_RUI);
-//                    if (uri.equals(result.uri)) {
+                    if (uri.equals(result.uri)) {
                         imageView.setImageBitmap(result.bitmap);
-//                    }else {
-//                        Log.w(TAG,"set image bitmap, but url has changed, ignored!");
-//                    }
+                    }else {
+                        Log.w(TAG,"set image bitmap, but url has changed, ignored!");
+                    }
                     break;
             }
 
@@ -151,9 +153,8 @@ public class ImageLoader {
         DiskLruCache.Snapshot snapshot = mDisLruCache.get(key);
         if (snapshot != null) {
             FileInputStream fileInputStream = (FileInputStream) snapshot.getInputStream(DISK_CACHE_INDEX);
-            bitmap = ImageResize.decodeSampleBitmapFromStream(fileInputStream,reqWidth,reqHeight);
-//            FileDescriptor fileDescriptor = fileInputStream.getFD();
-//            bitmap = ImageResize.decodeSampleBitmapFromFileDescriptor(fileDescriptor,reqWidth,reqHeight);
+            FileDescriptor fileDescriptor = fileInputStream.getFD();
+            bitmap = ImageResize.decodeSampleBitmapFromFileDescriptor(fileDescriptor,reqWidth,reqHeight);
             if (bitmap != null) {
                 addBitmapToMemory(key,bitmap);
             }
@@ -267,8 +268,9 @@ public class ImageLoader {
             public void run() {
                 Bitmap bitmap1 = loadBitmap(uri,reqWidth,reqHeight);
                 if (bitmap1 != null) {
-                    LoaderResult result = new LoaderResult(imageView,uri,bitmap);
+                    LoaderResult result = new LoaderResult(imageView,uri,bitmap1);
                     mMainHandler.obtainMessage(MESSAGE_POST_RESULT,result).sendToTarget();
+                    Log.d(TAG,"handler obtainMessage");
                 }
             }
         };
@@ -369,7 +371,14 @@ public class ImageLoader {
         public String uri;
         public Bitmap bitmap;
 
-        public LoaderResult(ImageView imageView,String uri,Bitmap bitmap) {
+        @Override
+        public String toString() {
+            return "uri---" + uri
+                    + "bitmap---" + bitmap.getByteCount()
+                    + " imageView---" + imageView.toString();
+        }
+
+        public LoaderResult(ImageView imageView, String uri, Bitmap bitmap) {
             this.imageView = imageView;
             this.uri = uri;
             this.bitmap = bitmap;
