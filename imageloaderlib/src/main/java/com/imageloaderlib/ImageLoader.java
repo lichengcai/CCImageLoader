@@ -73,7 +73,7 @@ public class ImageLoader {
                 case MESSAGE_POST_RESULT:
                     Log.d(TAG,"handler handleMessage");
                     LoaderResult result = (LoaderResult) msg.obj;
-                    Log.d(TAG,"handler result tostring---" + result.toString());
+                    Log.d(TAG,"handler result toString---" + result.toString());
                     ImageView imageView = result.imageView;
                     imageView.setImageBitmap(result.bitmap);
                     String uri = (String) imageView.getTag(TAG_KEY_RUI);
